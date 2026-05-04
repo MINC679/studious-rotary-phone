@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .cancelbtn {
+            width: 100%;
+            padding: 14px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cancelbtn:hover {
+            background-color: #d32f2f;
+        }
+
+        .switch-btn {
+            background: none;
+            color: #0a1af7;
+            margin-top: 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .switch-btn:hover {
+            text-decoration: underline;
+        }
+
+        .codebtn {
+            width: 100%;
+            padding: 10px 18px;
+            background-color: #d2d1d1;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .codebtn:hover {
+            background-color: #a0a0a0;
+        }
+
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+            position: relative;
+        }
+
+        .container {
+            padding: 8px;
+        }
+
+        .psw {
+            background: none;
+            color: #0a1af7;
+            margin-top: 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            float: right;
+        }
+        .psw:hover {
+            text-decoration: underline;
+        }
+
+        .pswd {
+            background: none;
+            color: #0a1af7;
+            margin-top: 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .pswd:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            position: fixed; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            width: 80%;
+            max-width: 450px;
+            border-radius: 10px;
+        }
+
+        .animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+        }
+
+        .agree_modal {
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            position: fixed; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .agree_modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .agree_modal-content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .agree_modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }  
+
+        .agree_modal-content h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }  
+
+        .agree_animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+        }
+
+        @-webkit-keyframes animatezoom {
+            from {-webkit-transform: scale(0)} 
+            to {-webkit-transform: scale(1)}
+        }
+    
+        @keyframes animatezoom {
+            from {transform: scale(0)} 
+            to {transform: scale(1)}
+        }
+
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+            width: 100%;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- 登录页面 -->
+    <div id="loginModal" class="modal">
+        <form class="modal-content animate" action="" method="post" onsubmit="handleLogin(event)">
+        <div class="container">
+            <h2>欢迎来到登录/注册页面</h2>
+            <h2>登录</h2>
+            <label for="username">用户名:</label>
+            <input type="text" placeholder="请输入用户名/电话/邮箱" id="username" name="username" required><br><br>
+            
+            <label for="password">密  码:</label>
+            <input type="password" placeholder="请输入密码" id="password" name="password" required><br><br>
+            
+            <button type="submit" class="button" onclick="handleLogin(event)">登录</button>
+            <!-- <input type="submit" value="登录"> -->   <!--也可以使用这种方式，注意按钮提示文字所放位置-->
+            <input type="checkbox" checked="checked"> 记住我<br><br>
+            <button type="button" class="switch-btn" onclick="showRegister()">没有账号？立即注册</button>
+            <button type="button" class="psw" onclick="forgotPassword()">忘记密码?</button>
+        </div>
+        </form>
+    </div>
+
+
+    <!-- 注册页面 -->
+    <div id="registerModal" class="modal" style="display:none;">
+        <form class="modal-content animate" action="" method="post">
+            <h2>注册</h2>
+            <label for="new_username">用户名:</label>
+            <input type="text" placeholder="请输入用户名" id="new_username" name="new_username" required><br><br>
+
+            <label for="telephone">电  话:</label>
+            <input type="text" placeholder="请输入电话号码" id="telephone" name="telephone" required><br><br>
+
+            <label for="new_password">密  码:</label>
+            <input type="password" placeholder="请输入密码" id="new_password" name="new_password" required><br><br>
+
+            <label for="confirm_password">确认密码:</label>
+            <input type="password" placeholder="请再次输入密码" id="confirm_password" name="confirm_password" required><br><br>
+
+            <label for="code">验证码</label>
+            <input type="text" placeholder="请输入验证码" id="code" name="code" required><br><br>
+            <button type="button" class="codebtn" onclick="getVerificationCode()">获取验证码</button><br><br>
+
+            <input type="checkbox" checked="checked"> 我同意<a class="pswd" href="#" onclick="showAgreement()">《用户注册协议》</a><br><br>
+
+            <button type="button" class="button" onclick="handleRegister(event)">注册</button>
+
+            <div class="container">
+                <button class="switch-btn" onclick="showLogin()">已有账号？立即登录</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 用户协议页面 -->
+    <div id="agreeModal" class="agree_modal" style="display:none;">
+        <div class="agree_modal-content animate">
+            <h2>用户注册协议</h2>
+            <p>欢迎使用我们的服务！在注册成为用户之前，请仔细阅读以下用户注册协议：</p>
+            <h3>1. 用户资格</h3>
+            <p>您必须年满18岁才能注册成为我们的用户。通过注册，您声明并保证您符合此资格要求。</p>
+            <h3>2. 账户安全</h3>
+            <p>您有责任保护您的账户信息和密码的安全。请勿将您的账户信息透露给任何第三方。如果您发现任何未经授权的使用您的账户，请立即联系我们。</p>
+            <h3>3. 用户行为</h3>
+            <p>您同意遵守所有适用的法律法规，并且不会使用我们的服务进行任何非法活动。您同意不发布任何侵犯他人权益的内容，包括但不限于诽谤、淫秽、暴力或其他不适当的内容。</p>
+            <h3>4. 隐私政策</h3>
+            <p>我们重视您的隐私权。在使用我们的服务时，您需要了解我们如何收集、使用和保护您的个人信息。详细信息请参阅我们的隐私政策。</p>
+            <h3>5. 免责声明</h3>
+            <p>我们提供的服务是基于“现状”提供的，我们不对服务的准确性、可靠性或适用性做出任何明示或暗示的保证。您使用我们的服务风险自负。</p>
+            <h3>6. 变更协议</h3> 
+            <p>我们保留随时修改本协议的权利。任何修改将在本页面上发布，并且在发布后立即生效。请定期查看本协议以了解任何更改。</p>
+            <h3>7. 联系我们</h3>
+            <p>如果您对本协议有任何疑问或需要进一步的信息，请通过以下方式联系我们：</p>
+            <p>电子邮件:xxxxxxxxxx@qq.com
+            <br>联系电话:1234567890</p>
+            <input type="checkbox" checked="checked" id="agreeCheckbox">
+            <label for="agreeCheckbox">我已阅读并同意<a href="#" onclick="showAgreement()">《用户注册协议》</a></label><br><br>
+            <div class="container">
+                <button type="button" class="button" onclick="agreeConfirm()">同意并关闭</button>
+                <button type="button" class="cancelbtn" onclick="closeAgreement()">不同意</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // 获取模态框
+        var loginModal = document.getElementById('loginModal');
+        var registerModal = document.getElementById('registerModal');
+        var agreementModal = document.getElementById('agreementModal');
+
+        window.onload = function() {
+            loginModal.style.display = 'block';
+            registerModal.style.display = 'none';
+        }
+
+        // 当用户点击模态框外部时，关闭模态框
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+            if (event.target == registerModal) {
+                registerModal.style.display = "none";
+            }
+        }  
+
+        function showLogin() {
+            document.getElementById('registerModal').style.display = 'none'; // 先隐藏注册界面
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function showRegister() {
+            document.getElementById('loginModal').style.display = 'none'; // 先隐藏登录界面
+            document.getElementById('registerModal').style.display = 'block';
+        }
+        
+        //忘记密码事件
+
+        function forgotPassword() {
+            alert("请联系管理员重置密码！");
+        }
+        
+        //登录表单提交事件
+        function handleLogin(event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // 这里可以添加登录验证逻辑，例如发送请求到服务器验证用户名和密码
+            if (username === "") {
+                alert("请输入用户名！");
+                return;
+            }
+            if (password === "") {
+                alert("请输入密码！");
+                return;
+            }
+            if (username === "admin" && password === "password") {
+                alert("登录成功！欢迎，" + username + "！");
+            } else {
+                alert("用户名或密码错误！");
+            } 
+        }
+
+        
+        //注册表单提交事件
+        function handleRegister(event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            var new_username = document.getElementById('new_username').value;
+            var telephone = document.getElementById('telephone').value;
+            var new_password = document.getElementById('new_password').value;
+            var confirm_password = document.getElementById('confirm_password').value;
+            var code = document.getElementById('code').value;
+            
+            // 获取验证码按钮点击事件
+            if (new_username==""){
+                alert("请先输入用户名！");
+                return;
+            } 
+            if (telephone==""){
+                alert("请先输入电话号码！");
+                return;
+            }
+            if (new_password==""){
+                alert("请先输入密码！");
+                return;
+            }
+            if (new_password !== confirm_password) {
+                alert("请确保两次输入的密码一致！");
+                return;
+            }
+            if(code==""){
+                alert("请先输入验证码！");
+                return;
+            }
+            if (code !== "123456") { // 这里的验证码应该与获取验证码时发送的验证码一致
+                alert("验证码错误！");
+                return;
+            }
+
+            // 这里可以添加注册逻辑，例如发送请求到服务器注册新用户
+            alert("注册成功！请登录！");
+             // 注册成功后自动切换到登录界面
+            showLogin();
+        }
+        
+        //获取验证码事件
+        function getVerificationCode() {
+            var telephone = document.getElementById('telephone').value;
+            var new_username = document.getElementById('new_username').value;
+            var new_password = document.getElementById('new_password').value;
+            var confirm_password = document.getElementById('confirm_password').value;
+             if (new_username == "") {
+                alert("用户名不能为空！");
+                return;
+            }
+            if (new_password == "") {
+                alert("密码不能为空！");
+                return;
+            }
+            if (confirm_password == "") {
+                alert("请确认密码！");
+                return;
+            }
+            if (telephone == "") {
+                alert("请输入电话号码以获取验证码！");
+                return;
+            }
+            // 这里可以添加获取验证码的逻辑，例如发送请求到服务器获取验证码
+            alert("验证码已发送到您的手机！");
+        }
+
+        // 用户协议事件              
+        var agreeModal = document.getElementById('agreeModal');
+        var agreeCheckbox = document.getElementById('agreeCheckbox');
+        
+        function showAgreement() {
+            agreeModal.style.display = 'block';
+        }
+
+        function closeAgreement() { 
+            // 关闭弹窗
+            agreeModal.style.display = 'none';
+            alert('您不同意用户注册协议');
+        }
+
+        function agreeConfirm() {
+            // 勾上复选框
+            if(agreeCheckbox.checked == true){
+                // 关闭弹窗
+                agreeModal.style.display = 'none';
+                alert('您已同意用户注册协议');
+            }
+            else {
+                alert('请同意用《户注册协议》才能继续注册');
+            }
+        }
+
+        // 当用户点击模态框外部时，关闭模态框
+        window.onclick = function(event) {
+            if (event.target == agreeModal) {
+                agreeModal.style.display = "none";
+            }
+        }
+        </script>
+</body>
+</html>
